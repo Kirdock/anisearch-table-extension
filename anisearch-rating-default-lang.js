@@ -15,17 +15,26 @@
     const defaultSubtitle = 'de';
     const ratingElement = document.querySelector('[data-rating]');
 
-    if (!ratingElement) {
+    if(!ratingElement) {
         return;
     }
 
     const ratingValue = ratingElement.attributes['data-rating']?.value;
 
-    if (!ratingValue) {
+    if(!ratingValue) {
         return;
     }
+
     const data = JSON.parse(ratingValue);
-    data[6] = data[6] === 'xx' ? defaultLang : data[6];
-    data[7] = data[7] === 'xx' ? defaultSubtitle : data[7];
+    setDefaultLang(data, 6, defaultLang);
+    setDefaultLang(data, 7, defaultSubtitle);
+
     ratingElement.setAttribute('data-rating', JSON.stringify(data));
+
+    function setDefaultLang(array, index, defaultString) {
+        if (array[index] !== 'xx') {
+            return;
+        }
+        array[index] = defaultString;
+    }
 })();
